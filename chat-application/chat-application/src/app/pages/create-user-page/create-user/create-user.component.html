@@ -1,0 +1,18 @@
+<div class="login-form">
+    <form (submit)="submit()" [formGroup]="createUserForm">
+        <h2 class="text-center">Create user</h2>       
+        <div class="form-group p-1">
+            <input formControlName="username" type="text" class="form-control" placeholder="Username" required="required">
+        </div>
+        <div class="form-group p-1">
+            <input formControlName="email" type="text" class="form-control" placeholder="E-mail" required="required">
+        </div>
+        <div class="form-group p-1">
+            <input formControlName="password" type="password" class="form-control" placeholder="Password" required="required">
+        </div>
+        <div class="form-group p-1 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary btn-block">Create user</button>
+        </div>      
+    </form>
+    <p class="text-center"><a [routerLink]="['/']">Log in</a></p>
+</div>

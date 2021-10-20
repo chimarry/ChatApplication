@@ -1,0 +1,14 @@
+<div class="login-form">
+    <form *ngIf="!requestInProgress" (submit)="submit()"  [formGroup]="verificationForm">
+        <h2 class="text-center">Verification code</h2>       
+        <div class="form-group p-1">
+            <input formControlName="verificationCode" type="text" class="form-control" placeholder="Enter code here" required="required">
+        </div>
+        <div class="form-group p-1 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary btn-block">Verify</button>
+        </div>      
+    </form>
+    <div class="text-center p-2" *ngIf="requestInProgress">
+        <img src="/assets/images/loading-buffering.gif" />
+    </div>
+</div>

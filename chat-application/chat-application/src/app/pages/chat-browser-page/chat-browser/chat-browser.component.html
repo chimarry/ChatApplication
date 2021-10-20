@@ -1,0 +1,71 @@
+<div class="container-fluid pl-4 pr-4 row">
+    <div *ngIf="!requestInProgress" class="row rounded-lg overflow-hidden shadow">
+        <!-- Users box-->
+        <div class="col-5 px-0">
+            <div class="bg-white">
+                <div class="bg-gray px-4 py-2 bg-light">
+                    <p class="h5 mb-0 py-1">Messages</p>
+                </div>
+                <div class="messages-box">
+                    <div class="list-group rounded-0">
+                        <div *ngFor="let data of chatList">
+                            <button class="list-group-item list-group-item-action rounded-0"
+                                (click)="selectUser(data.username)"
+                                [ngClass]="isUserSelected(data.username) ? 'active text-white' : 'list-group-item-light'">
+                                <div class="media d-flex">
+                                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBYVFRgVFRUYGRgYGBgaGBUYGBgYGBoYGBQZGhgaGBgcIS4lHB4rIRgYJjgmKy8xNTU1GiQ7QDs0Py40NTEBDAwMEA8QHxISHjQrJSs0NDQxNDQ0NDQ0NDQ0NDE0NDE0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDE0NDQ0NDE0NP/AABEIAOEA4QMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAAAgMEBQYBB//EAD4QAAEDAgQDBQYFAwMDBQAAAAEAAhEDBBIhMUEFUWEGInGBkRMyUqGxwRVCYtHhFHLxIzPwkrLCBxY0U6L/xAAZAQACAwEAAAAAAAAAAAAAAAAAAQIDBAX/xAAmEQACAgICAQQCAwEAAAAAAAAAAQIRAxIhMQQiQVFhEzJCcYEU/9oADAMBAAIRAxEAPwDcBzPjmOqG3I2hYIXbxuU9Q4i9pyK6X/Oc9Z/o1fG77Db1J3bHqV5zdVnOYGN3d/CsON8Xe9oYdCZjmq7h7TjxH8v7yss4NTUY9mmM1rszT2PZxzaTRHeIk+eyj3HDXM1I8E+OOVIiVEfcPccRK244yiqMs5Rk7G2WrjspLuFvaMThCk2Fw4kDEFeVLlhbD4TlOSdCUYtGONI8kkMWteym5sNAHVVta2HxNTjlv2IuFFLgQWp+s4g5EJiZVqdkDiIQiUwCEQiUSgAC7C5KJQKwQiUSgLOEKk7QWxgPbqMirwlN16Ye0tO4UMkdotE4S1kmUfZ6+xHAfEfsr6FiqjHUavKCtZYXIe2QZI1WTxZOMnBmnyIpxUkV3EG4qwHIK3oCBHJVtOmH3JaT5q6rsgxCjDnyGE+MKG0Lsri6BkCEIQgDmFEJcJFV8AnkEN0BT8RfLwBsrGypYW+KrbemXvxcyrpoWLAtsjmasr1gohC7K6uLaZTrHkaFKfVcdSUiEQlSAcbVcNykmoea4uQikKwlclEIhMLAISKlZrfeIHTf0UZ3EWjQE+gUJZIR7ZOMJS6RNlclQhxJvwn5KRSumO0PkcihZIS6YpQmu0PIRCIUyALi7CIQFnELsLsIAz/aW1kB48D9lF7P3OF8E5EQtJd0MbHN5jLx2WNptwuc07Suf5CcJqaNuFqcHFl/wx2Ku5+0/U5LQXoh2ZlZvs9hxku01+e60l26XTz5KHjPbM2SzrXGkRkJWFGFdMwCUJWFCAFEKBxR8MjmrLCqW/djqBuw1+6ozz1g2XYY7SRJ4cwYRG26mwuW7ABlodPDZOYUvGjrBffI80tpv6EQiEvCiFfZSJhEJeFGFFkbEgIhKhGFILEYVWXt/HdZ5u/ZSuKV8DYGrvpuqJZfIzOPpiasGFP1SOl05krii373ADBMzsm7a4fo9p/ug/NYrbNvROQoVxduGTWE9SCu2FZzpxeWUJDLa2vXM1MjkfsVdUnhwDhoVm1a8Ef7zPMfda/HzPbVmTPiWuyLLCjCnQxGBbrMI1hRhT2BdDEWAxhWU4wzBcTGTs/XVbLCqDtPbZMfGmRWfyY7QZo8eVTQxwujhcSPcdp+y0AZkFR8OugGYN5yWgo0+6Fi8R1k/wANflfoNhq7hT+BGBdSzmDGFdT+FCLAYuH4Wl3IKjtmY3ZTnr6qz43UhoYNSjgtoQMR0Oiw53vNRRuwrWDkya2nAjkjCpOBcwLYnXBkI+FGFP4UYU7EMYV3CnsK6GIsVDGFGFSmUCdiuPoEbJbIKZlOLVMVQj4clAefqFIvfff/AHH6pFKniMdD8gVy8krk2dXGqgkWvAODtuC8vcQGxERv4q2uOz1uyMdRwnmRn5Qo3ZCu1mPEQJ3PT/KkcQvXe0cRpAa17YJgGTHKVG2iRO4P2VtaznND3mACCCI8NFTdrez7LZwwOc4EwcUaxOwWm4XxenRDSSCY7waIkkZ9Fn+1vFhXHukd+QZ20zCVskZdTOEviq3rI+Shp6xdFRn9zfqpwdSTK5q4NGsDV2E7hXcK6lnJYzCIT+BHs0WAzhUPi9DHScNwJ9FZezSAyS4eXyUZcqhxdOzFcMeJwnbQ9VrbY5Bu8T5LJ+zDKxA5kD1yWv4LTxAzqAQuZF6ZF/Z1ZrbH/guEYU8aa7hXUs5IzhQnsKEWBmbs+0qFw0xQB0WopWpY1rSIyHzVJ2dsw6o0u01M7dVtn2rXZl8rn4X6nJnRzL0qKKcMnJSqXC3u0Cs6dGm3mSpzLkAZFXyyy/ijPHEv5Mzj+HPae80wpjLKmRq6fBWb78Jpl0BsFFzm0TUIIgO4U0nJ2XUKdTtKbR7s9YSzfDokPvgk3N9kkoRHWvYNAPRMXTqbhBIHkmjdA7JmpUZyTUXZFyVHmfFABVeAcsbo9SuWFs6o/C17WEAmXHDPQRvmk8c7ty4bY3KZ2etGvrtL2Y2s7xZ8QkAjxzWWbps2QVpCLXhFYPwEw0k99pLh5tbn8lfM7I1nCW12EcwXfsm6HZi4F454LmW5eSAHAENM4RhnUZLcsMEN1jInmYmVS8jLlFP2POOLcGuKMAPL3H8rMenMkiB6qA+0GAuq1mNeASKc4nSNBy9JXqtxRbUljhpGmsH/AAsHQ7EVGXLqzsD2S8hmLvEEOwg5dQiORvsJQS6RmlZcOs2lj6xcZY5pDYyIBE581V3HdB6fur62umMsntMYn1A1o3ybJPp9VZbVUV0naZo2wQCNCAR5pWFNcJE0WH9Kmhi6kZWrORKNNoj4F3An8CMCdkaGMCivkksGpOZ5CM1Y4E1TYMTueX0UWySRiu0FEU6wMZZFafswJbjxZbiNlS9tqWbD0+6sexlUYHMJ1YY8Qf8AC52ZVM6WF3BFzWZ3jGkpGFSnAGCNwJ8YzTL2SQNJ3W1ZKgmc+cam0M4TyQpn9MPiC6l+RkdWV3BLEsYHO95w9ArTCpAYjAiKUVRok3J2MQVzNP4EYFKyNEctRCkYFzAiwoYhcwqRgXRTRsFEXCmbuu2mwveYA9SeQUq/qsosdUe4Na0Zn7DmV51f9onXTyAMNNnut3J5lQlkUSUMTk/ohcevA+uHhpALhkfABafsJHtnH9P3WO4izLFyj6rR9kbgiqSNMOfqM1hyNtNnRxx1aSPTnvgE/wDJ2TbHBsNOpzPilUnB7QfPzTNzbFxDmmCFmNA9Wb+Yaj5jcJQIIkbhdZ1SXkNafAoA8X44cJeP1kf/AKVc+o51VjAcu7A2l0Spnad8PeP1u+RKY4Az2ldp2aAfRq1LpGZ9m8srp9NrWgyGiII+4Vxa3jH5aO+E/Y7qiTdesGDETEes9FdHLKJVPBGXK4ZrRTXalAgaa5eqqeDcaZWDBMPmHNOumRHPRWl052JjW6kz4AbrRvatGFwp0xynbE8kg20POYzaD6FSGtgQo9ywktjUyPJKUmuQjFN0Z7tRZ46WOdyAOg3We4fchgZGxz6gjNbbj1tNBwG0Lzi2dD89joqM8eEzZgldo9Rt6rHMDwIEDLlzRcBkAh/UKn7N1muaWOPkovaGpVY6WN7oBJnMQqnkkopFOaPrLT+pHRCwn41U+JChvMhoz1/+nPJH9MeSztftOSSGDwKZbx+qd1s9TByijTm2PJJNA8lm28dqyO8nvxmoc5+SlTE8kS9NJNve1uZcB5rO3N+9+pPkopxHUlPVlbzL2Rd1eKMBgCeqR+LjXCqltJROJPLKT3cmn1IhOkkQU5N0jJdru0T7l5aDDGGGtB1PM8yoXA/zeSqjJJKs+BuzcOgWNu3Z1oLVJE++ZLHAcvok9jeJCncNDzk7uz4iB9lLKz1/alj5GhMg8s9FGStFnTs9usq+A4T7h0PI/srV7TsfKY+y8z7O9rGvYKdfUCMesj9QWx4fxAxDXiozYzmByn91lcWuy+1LouabDqSfCZH0UDid2J9m33jr+kcykV790bMHQyT4LOcR4/TpSGd558Y8yhc8IOuWZftPw4BgcPefVeBOuEb+spzszZhjS7ynruq2/vi94LjLychsJ6bBaXh1DAwA66nxK0wjS5KG03wSlQcYuMT8I0b9d1c3VXAxzuQy8dlliZUxMXb1nMcHtMFpBBXpHZziP9TL4hzGAO8STJHovM1f9jeI+yuGgnuv7p89D6qUZUyjJFONnpWBM0mYnF22g8tUu7rgMy1OTfEp9jWtaBGgVzZkVUQLkB7HtHIyF5RxCmWVCF662m0h4DHNkHMnNeTcaP8AqnxKrnJuPJdh/Y0XZ+5a1jngZtAJnPT7Kv7QccZWaYLmuyGEe6ecqd2VZOJsTiacueXzWeuqZxvYGQMUmRmIOgOyzxVssypbJsqcRQtD+DN5D/r/AIQrKI3EuW2xByCksondSWsSytVnOtkcUQnRThLC7mU7FQ1BShTToC49yLChpype1TotnnmWj5q6DpWP7acSmKDRoQ5x6xkPmoTl6S3DFuSSKLhjO6TzKk2lMYw5u+RHVJtWQwD/AJmozXmm/o4/fVZjqovCI1TVekHtIIVrRDazAdHjI+PVQq1IsMOCZYZGSx2WxVtY8VI/MWO5gkJVThrXkukiSfBRbnhbmiWmY8io0Qposrjjjz71V7soycdOSqK/EHH3cuu6fsODPqCRkPBaCz7Msbm8lx5aBCXwPllV2ascVQPfnAnPnstmo1C2Yw90RIA/4SpKaGkVHHq8BjPiJJ8AFTJzit1juS3Zojz3UYvl4byEn7JkWOpVN5aQRqCCkrqEJm+tb51RzHA5Bod5kK4p8RI95YbhF6WMhpznPpyXLqvVd+YwtEZJrk5E4yU6T4RtrvtFSY0zJMaBeZ3TsdSYMGY9VLpVHsdjgOy/MJjrClWnGGPOGswAz3XtABb4gahU5Je1G7xo8XZO4aTTwuGwUeo9gJc6Jku72/IJbKoMcgdRuEviVkHlr25AtEjmqEm+EW5knG37FP8A1h5hCl/g4+EoU6+zJvA1cJJCYY8jdL9sVsMtDuJEpr2nRHtUIEPSm35pt1UpPtyih2Ohi894qGvuXnUNP0y+y293eYGOf8LSfkvP7E4sTjqSqcvwavFjbbJSh38EZ6jMdVNTVxRDxB8iqqNxadnm4+/JAwjTmrt9BrveE+OarezFDBRndzifTJW6ETRFPD2ciPNKbaMA931zUhcKYCnxidAgScvNcSqggnqGn1aCkoBHCE3UGEEgxA8fqnVE4i+GRzQMxdbu189z9QpFsO889Y9F3i1DIPGrdfBdtj3Z5kn5pEGPLiEJiJNhWwO6OyP2VqKgH7KiBzWpexhpipGoHqpRklwzD5Uaaa9yIC05c9fBVXGLUN7zPRXFvazm0Ek+id/DQ8nGZ5cgiUou7K4ScGnZTcLuJZDjmNlobK6Y7uOyIET9Fkb63dReQdjkeYU1lcEBw97cqh/R0U1KJrsJ5oVD+KO5rijRD8US6bU5hLa8JbaJOfyXRR5rWpM5WyEYlwsJT9OipIpwpbUrYnIrjTdBSfZuIB5qa8hsg76KsZXMROn7qqWanwSXKKvtPLKDv1EN+/2Wbs2wweq1vE7UXDCxzoMgg9eqprnhNWkBiYYgQ4ZjTmlKafJv8VelkNCCEJWaS94HVDqcbtJB9ZVks12fLxUf8ECfHmFpUIcZJghCEyQqp+X+wfIkfZJQTp4f+TkIBAqnir5cByVqSqC4ficT1QMaeMs1Fo05hrRJOgGZ8gpTgoXDGVKVwx5zAeM+m/ySb4E1ZdW3Zyu/Mtwj9Rj5aqypdj3HV48mkre0LZoAOu8qQ0LO8ki3SKPLu0HZ51tS9q0l0EAgtgQd1I7NYqjG4291oybsSSTJW47Q24fbvaeQPo4FY+0q4SWsEBoEzkUt/kweZ1qizuKzGNJJDQFCbUD242GQUzcYHA4oz2OkqutqpYWgCGE5kaZdVC5S5sxRgqHeNW3tWGBm3TqsjbVi0lpW7psnMEEHks3x/h4a8Pa0wfeyylThO/SzTgnT1ZH9oOa6k+zZ8YQrDYeiNcNZUGtfYTmFEZTf72xGijewcTEq+Lo4cUvcvrauCQdinalYSoNpbEAGZ6JdY5ElRlJvgi6FXLhhzPgqS4rAEqU8zmSoNxRnMKuiyD9iTwSia1ZrNplx/SMyt7fUBgJAEj6brKdh6P8AqPcdmAep/hbdVT7o7HiRqF/JSVez9J8OwMM55tA+iq+K8MZSwYWMBk5gDSP5WsYwAQNFne01QYmg7Nn1P8Ii6ZZ5L1xtlFiaJgCTrATdKpnh5adf5TLXyU7QIM+P2Cti25HO8WT3oeQhcKtOicBz9f3+6WkOIE+R+x+vyUa4vWs0zKBIcu6oaw55kZKjSq1cuMuKbxBJkjpT1pbPqPDGNLnHYKC6qTolW1y+m7Gxxa4bgkFDFZ7FYU3Npsa8gua0AxzAUlZbsp2kNf8A06kYwMnfEBrlzWoBWWSafJanaIvFB/pP/tKwlxWDO9ucvFeg3LMTHN5tI+S84rvcMRfEA5CFGrZh8xcpjrWsc05wNyu2FgQ0iQ5m3+FAFUOEgaHQcuoWhtqksB2jWIUZ7RXBkSEstWtAwiOiRd0GlpDhIcIUkvAGqYuajWiXKqLk2OKbfBmfwEfEuqX/AFQ+EoWj1F+uT5Ld10B4KJUrg59VGbVxCAJXDTOUrXZzFEuaVXKUiu+QVEpVxGaW6oHIZFxGqbE7UpiIT1O2Oq5c0cplMa7LLshGN4Hwj5FamV55Y8abauc5zS4vaQ0A/mBBz6KBe9q7l5yfgHwsy+eqplBuR3PGmliR6lKzfaxg7jj1H0Kwg43cDP2z/wDqP7qY7j9Ss1tOqQ6JIecnaaHmksbTDyJKWNoceJcMEZ69OqkUmYJzkHfqm7BkNJ5n6KUVcopFXj4lGO3uAKHkAZ6KBc3jW+5r8vRQLi6e/XTkMkzUF+8Od3MgNxvtomA3qUl1QDWR5FIfV5eqQhbnBvj80y95OvouITItguIXJ5eqBD9pdGm9r2mC0gjyW3uu3bAB7OmXGBJcYExnAWBASlBxUuySk10a9/buoQQKTBIImTkqWlxIOlrhE76jzVShJwiV5I79mq4fbNYO8QS4ZQl3V6GCAcpzHRZmyc/G0B3gDz6KReAxAzO4Gv8ACpeP1W2Z/wALvktrvirB3aeZO50CLa2Doe9+I7AHJUtpSdibjaQ3c9N1d21IAgsxEA6HSNs0pRUVSFK48JUPe0Zy+SFIxn/62IVZX6vkrLdmAEHVJdcTrmkuug4/JSWtaGhbLKtPkadESEmldhpTdd42d5LvsGkSHeSdoHBFrT4iyFGubxs5GUU7JmHNyq7qgGuydkhNWQUEV3HnjHTIOX8pCY43VacEEEidE7TdIB5hM6WFVFIUuO+6UmbkkNJGoj6plpe8IvGhuBxjPInTPZLvrzF3W6bnms/b1cYnfcKNXun03ZGWnQH6JWSTLtJJVbS4u0+8CPDNSW3rHe67PYZosdo7WdJjZIQupkWCSXjn5KqvLtxcWA5A7KdZ0cLQTqdSlYh+OfouoTFzWwjqmA694EDc7JSj21M++7U6dApKABcXUIA4Z2MHYpLHPxYcRmdjK67QqXahrWY577SIE6jpzUZFOWTjVF1RuGNY1pLdM/vPVAvg5sM1JiNYA3Crb64pw1zRmcz1PJR7biIY8OEgH39DlOyp1tXRRTfLNLD/AIyuqs/9x0/hchQ1fwFP4KIVHA5eSdfVe0STE5QVAZTeCCJySnveT3iTyV2rHTFPuHTGqk21wdHGB81Ep2+eInNSAFLX5LVivslvvnaNyHXMqNWeXziJMriFJRSLIwjHpGfqtgxyKteHvlkclD4jTh081zh9WHRsUEy4SX/cfVdXH/cfVMDgYAZHn1TV9TxMPMZp9cfofBKgM8FZcNoR3iPBRragXvawaucAPMwvY7js5TfSbRADX02NAeBvnIdzEqEpKLJRi2ebJL3wCTspnEuHPoPLHtg7HYjmDuFQX91i7rdBr1U744IjVszG/wA5KulW8LZq7yVkhACjtplzy46aDyT7kBMDqELiAOoXEJWAippExJGaeZSc6ZkgZ8hHM8gkMYXODWiSdPFXdrw84S1+XdmRuSd+ahKdFGWSizM3L5A1nl02hMsBMD5LSVuHAMD2CKgPuxM+AVXQJ9pLwJkziGU+SkpprggpOSsT+HP+B3ohX3t2c2+h/ddUN38EbfwRNlX1vfPh90IUx4/2RxBQhSZrBCEIAruKflUKhqPH7oQk+wL4JLtPT6oQmAtIdofAoQhAMdlv/l0f72/9y9qp/wC4/wAB9ShCzZOy7GZf/wBTP9pni76LyRCFbDorl2WvDPdPipqEKaIgUIQhgBQEIQAIQhAEvhP+63z+i0x1ahCzZezD5H7jT/ed4LJX3vu8UITxE8Y0hCFeM//Z"
+                                        alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0 pl-4">{{data.username}}</h6>
+                                            <!-- <small class="small font-weight-bold">{{data.date}}</small> -->
+                                        </div>
+                                        <!-- <p class="font-italic mb-0 text-small">{{data.description}}</p> -->
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chat Box-->
+        <div class="col-7 px-0">
+            <div class="px-4 py-5 chat-box bg-white" #msgContainer>
+
+                <div class="d-flex" *ngFor="let message of selectedMessages"
+                    [ngClass]="getMessageType(message) === 'Received' ? 'justify-content-end' : ''">
+                        <div class="media w-50 mb-3"
+                            [ngClass]="getMessageType(message) === 'Received' ? 'active text-white' : 'list-group-item-light'">
+                            <div class="media-body" [ngClass]="getMessageType(message) === 'Received' ? '' : 'ml-3'">
+                                <div class="bg-light rounded py-2 px-3 mb-2"
+                                    [ngClass]="getMessageType(message) === 'Received' ? 'bg-primary' : 'bg-light'">
+                                    <p class="text-small mb-0"
+                                        [ngClass]="getMessageType(message) === 'Received' ? 'text-white' : 'text-muted'">
+                                        {{message.text}}</p>
+                                </div>
+                                <p class="small text-muted">{{message.sentOn | date:'dd.MM.yyyy HH:mm' || '-'}}</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <!-- Typing area [(ngModel)]="message"-->
+            <div class="bg-light">
+                <form (submit)="sendMessage()" class="input-group"  [formGroup]="chatForm">
+                    <input type="text" formControlName="message"  placeholder="Type a message" aria-describedby="button-addon2"
+                        class="form-control rounded-0 border-0 py-1 bg-light">
+                    <div class="input-group-append">
+                        <button id="button-addon2" type="submit" class="btn btn-link py-1">
+                            <!-- (click)="sendMessage()" -->
+                            <img width="30" height="30" src="https://cdn0.iconfinder.com/data/icons/gradak-communikatok-flad/32/communication-20-512.png">
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="text-center p-2" *ngIf="requestInProgress">
+        <img src="/assets/images/loading-buffering.gif" />
+    </div>
+</div>

@@ -1,0 +1,435 @@
+﻿{
+  "definitions": {
+    "AuthenticateCredentialsResponseWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "otpApiKey": {
+          "readOnly": true,
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "AuthenticateOtpPostWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "otp": {
+          "description": "OTP code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "otp"
+      ],
+      "type": "object"
+    },
+    "AuthenticateResponseWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "ChatDTO": {
+      "additionalProperties": false,
+      "properties": {
+        "messages": {
+          "items": {
+            "$ref": "#/definitions/OutputMessageDTO"
+          },
+          "type": "array",
+          "x-nullable": true
+        },
+        "username": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "MessagePostWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "receiverUsername": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "senderUsername": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "text": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "OutputMessageDTO": {
+      "additionalProperties": false,
+      "properties": {
+        "messageId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "receiverUsername": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "senderUsername": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "sentOn": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "RegisterUserPostWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "Email",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password",
+          "type": "string"
+        },
+        "username": {
+          "description": "Username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password",
+        "username"
+      ],
+      "type": "object"
+    },
+    "RegisterUserResponseWrapper": {
+      "additionalProperties": false,
+      "properties": {
+        "isRegistered": {
+          "description": "Is the image for the event changed?",
+          "readOnly": true,
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "info": {
+    "title": "Chat API",
+    "version": "0.1"
+  },
+  "paths": {
+    "/api/v0.1/certificates": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Certificate"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Certificate"
+        ]
+      }
+    },
+    "/api/v0.1/chat": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "description": "Message to send",
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/MessagePostWrapper"
+            }
+          }
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/OutputMessageDTO"
+            }
+          }
+        },
+        "summary": "Sends message based on provided body data. It also \r\ndetects malicious attempts to hack system, logs them and \r\nlogs out the user. Only a person with valid JWT token can access this endpoint.",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/v0.1/chat/{username}": {
+      "get": {
+        "parameters": [
+          {
+            "description": "Username for which messages are requested",
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ChatDTO"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "Reads all messages that belong to certain user.\r\nUser must be logged in and can access only his messages.",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/v0.1/users": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "description": "Information neccessary for registration process",
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserPostWrapper"
+            }
+          }
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserResponseWrapper"
+            }
+          }
+        },
+        "summary": "Enables user to register. Certificate is generated and sent on user's email.",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v0.1/users/authenticate/login-form": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "description": "Username",
+            "in": "formData",
+            "name": "Username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Password",
+            "in": "formData",
+            "name": "Password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Certificate",
+            "format": "binary",
+            "in": "formData",
+            "name": "Certificate",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AuthenticateCredentialsResponseWrapper"
+            }
+          }
+        },
+        "summary": "Enables user to authenticate using credentials and certificate. \r\nThis authentication is limited, it can be used as one phase of \r\nMF authentication, because it grants access only to another \r\nauthentication endpoint. OTP code is generated and sent on user's email, \r\nas well as OTP api key (returned in request).",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v0.1/users/authenticate/otp/{otpApiKey}": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "description": "Unique OTP api key",
+            "in": "path",
+            "name": "otpApiKey",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Information regarding OTP code",
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AuthenticateOtpPostWrapper"
+            }
+          }
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AuthenticateResponseWrapper"
+            }
+          }
+        },
+        "summary": "User must be authenticated to access this endpoint using specific OTP api key.\r\nThis endpoint can be used as second phase of MF authentication.\r\nIf authentication with OTP is sucessfull, JWT access token is returned in body, \r\nand refresh token is returned as cookie. User can use JWT access token limited number \r\nof minutes, so it is best to refresh token or to login again.",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v0.1/users/is-logged-in": {
+      "post": {
+        "parameters": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v0.1/users/refresh-token": {
+      "post": {
+        "parameters": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AuthenticateResponseWrapper"
+            }
+          }
+        },
+        "summary": "Refreshes token (only once per token). New JWT token is generated, \r\nas well as new refresh token (Rotation of Refresh Token).",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v0.1/users/revoke-token": {
+      "post": {
+        "parameters": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        },
+        "summary": "Revokes current JWT token.",
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "x-components": {}
+}

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ChatApplication.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:ChatApplication.WebAPI.AutoMapper.Mapping">
+            <summary>
+            Automapper provides many ways of creating configuration, and this approach 
+            is based on static api.
+            <see cref="!:https://docs.automapper.org/en/v8.1.0/Static-and-Instance-API.html"/>
+            </summary>
+        </member>
+        <member name="T:ChatApplication.WebAPI.AutoMapper.ResultMessageExtensionMethods">
+            <summary>
+            Encapsulates mapper logic related to objects of a type ResultMessage <see cref="T:ChatApplication.Core.ErrorHandling.ResultMessage`1"/>
+            </summary>
+        </member>
+        <member name="M:ChatApplication.WebAPI.AutoMapper.ResultMessageExtensionMethods.Map``2(ChatApplication.Core.ErrorHandling.ResultMessage{``1})">
+            <summary>
+            Because ResultMessage is a generic class, this method allows user to convert from ResultMessage<typeparamref name="OriginalType"/>
+            to ResultMessage<typeparamref name="WrapperType"/>, thus mapping operation result from OriginalType to Wrapper. It can be used for 
+            wrapping primitive operation results in class objects.
+            </summary>
+            <typeparam name="WrapperType">Type to convert to</typeparam>
+            <typeparam name="OriginalType">Original type</typeparam>
+            <param name="resultMessage">Object that is mapped</param>
+            <returns>New ResultMessage object</returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.ChatController.SendMessage(ChatApplication.WebAPI.Models.MessagePostWrapper)">
+            <summary>
+            Sends message based on provided body data. It also 
+            detects malicious attempts to hack system, logs them and 
+            logs out the user. Only a person with valid JWT token can access this endpoint.
+            </summary>
+            <param name="message">Message to send</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.ChatController.ReadAll(System.String)">
+            <summary>
+            Reads all messages that belong to certain user.
+            User must be logged in and can access only his messages.
+            </summary>
+            <param name="username">Username for which messages are requested</param>
+            <returns></returns>
+        </member>
+        <member name="T:ChatApplication.WebAPI.Controllers.UserController">
+            <summary>
+            Enpoints for working with users
+            </summary>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.UserController.RegisterUser(ChatApplication.WebAPI.Models.RegisterUserPostWrapper)">
+            <summary>
+            Enables user to register. Certificate is generated and sent on user's email.
+            </summary>
+            <param name="userInfo">Information neccessary for registration process</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.UserController.AuthenticateWithCredentials(ChatApplication.WebAPI.Models.AuthenticateCredentialsPostWrapper)">
+            <summary>
+            Enables user to authenticate using credentials and certificate. 
+            This authentication is limited, it can be used as one phase of 
+            MF authentication, because it grants access only to another 
+            authentication endpoint. OTP code is generated and sent on user's email, 
+            as well as OTP api key (returned in request).
+            </summary>
+            <param name="credentials">User's credentials and certificate</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.UserController.AuthenticateWithOTP(ChatApplication.WebAPI.Models.AuthenticateOtpPostWrapper,System.String)">
+            <summary>
+            User must be authenticated to access this endpoint using specific OTP api key.
+            This endpoint can be used as second phase of MF authentication.
+            If authentication with OTP is sucessfull, JWT access token is returned in body, 
+            and refresh token is returned as cookie. User can use JWT access token limited number 
+            of minutes, so it is best to refresh token or to login again.
+            </summary>
+            <param name="otpInfo">Information regarding OTP code</param>
+            <param name="otpApiKey">Unique OTP api key</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.UserController.RefreshToken">
+            <summary>
+            Refreshes token (only once per token). New JWT token is generated, 
+            as well as new refresh token (Rotation of Refresh Token).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Controllers.UserController.RevokeToken">
+            <summary>
+            Revokes current JWT token.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ChatApplication.WebAPI.ErrorHandling.ErrorHandlingMiddleware">
+            <summary>
+            Capture synchronous and asynchronous exceptions from the HTTP pipeline and generate error responses. 
+            </summary>
+        </member>
+        <member name="T:ChatApplication.WebAPI.ErrorHandling.ContentType">
+            <summary>
+            Type of a content that needs to be returned in body of a HTTP response
+            </summary>
+        </member>
+        <member name="T:ChatApplication.WebAPI.ErrorHandling.HttpResultMessage">
+            <summary>
+            Resposible for sending result to client based on message from managers
+            </summary>
+        </member>
+        <member name="M:ChatApplication.WebAPI.ErrorHandling.HttpResultMessage.FilteredResult``1(ChatApplication.Core.ErrorHandling.ResultMessage{``0},ChatApplication.WebAPI.ErrorHandling.ContentType)">
+            <summary>
+            Returns result with appropriate HTTP error code
+            </summary>
+            <typeparam name="T">Parameter type that needs to be class</typeparam>
+            <param name="result">Data to analyze and send to client</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.ErrorHandling.HttpResultMessage.ErrorWithDetails``1(ChatApplication.Core.ErrorHandling.ResultMessage{``0})">
+            <summary>
+            Returns result with appropriate HTTP error code and detailed message
+            </summary>
+            <typeparam name="T">Parameter type that needs to be class</typeparam>
+            <param name="result">Data to analyze and send to client</param>
+            <returns></returns>
+        </member>
+        <member name="M:ChatApplication.WebAPI.ErrorHandling.HttpResultMessage.Success``1(ChatApplication.Core.ErrorHandling.ResultMessage{``0},ChatApplication.WebAPI.ErrorHandling.ContentType)">
+            <summary>
+            Returns result with HTTP success code
+            </summary>
+            <typeparam name="T">Parameter type that needs to be class</typeparam>
+            <param name="result">Data to analyze and send to client</param>
+            <returns></returns>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.AuthenticateCredentialsPostWrapper.Username">
+            <summary>
+            Username
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.AuthenticateCredentialsPostWrapper.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.AuthenticateCredentialsPostWrapper.Certificate">
+            <summary>
+            Certificate
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.AuthenticateOtpPostWrapper.Otp">
+            <summary>
+            OTP code
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.RegisterUserPostWrapper.Username">
+            <summary>
+            Username
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.RegisterUserPostWrapper.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.RegisterUserPostWrapper.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
+        <member name="P:ChatApplication.WebAPI.Models.RegisterUserResponseWrapper.IsRegistered">
+            <summary>
+            Is the image for the event changed?
+            </summary>
+        </member>
+        <member name="M:ChatApplication.WebAPI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+             This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+        </member>
+        <member name="T:ChatApplication.WebAPI.Util.MvcOptionsExtensions">
+            <summary>
+             Implements MvcOptions extention methods in order to use a global route prefix in controllers
+            </summary>
+        </member>
+    </members>
+</doc>

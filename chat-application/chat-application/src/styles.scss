@@ -1,0 +1,20 @@
+// (Required) Import Bootstrap
+// @import "bootstrap/functions";
+// @import "bootstrap/variables";
+// @import "bootstrap/mixins";
+//cyan
+//#87dae7
+$primary: #54a8b5;
+$secondary: #8aafb4;
+$my-color: #87b4e7;
+
+$theme-colors: (
+  primary: $primary,
+  secondary: $secondary,
+  my-color: $my-color
+);
+
+// Add below your SASS or CSS code
+@import "~node_modules/bootstrap/scss/bootstrap";
+// (Required) Import Bootstrap
+// @import "bootstrap/bootstrap";
